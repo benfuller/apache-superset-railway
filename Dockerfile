@@ -1,5 +1,4 @@
 FROM apache/superset:latest
-
 USER root
 
 # Install system dependencies
@@ -19,3 +18,5 @@ COPY /config/superset_config.py /app/
 RUN chmod +x /app/superset_init.sh
 
 USER superset
+
+CMD ["/app/superset_init.sh"]
