@@ -7,7 +7,7 @@ superset fab create-admin --username "$ADMIN_USERNAME" --firstname Superset --la
 superset db upgrade
 
 # setup roles and permissions
-superset superset init 
+superset init 
 
 # Starting server
 /bin/sh -c /usr/bin/run-server.sh
