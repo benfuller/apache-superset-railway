@@ -11,17 +11,17 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Switch back to superset user
+# Switch back to superset user to install Python packages
 USER superset
 
 # Install Python packages into Superset's virtual environment
-RUN /app/.venv/bin/pip install mysqlclient psycopg2-binary
+RUN pip install mysqlclient psycopg2-binary
 
-COPY /config/superset_init.sh ./superset_init.sh
+# Copy init script (as superset user first, then chmod as root)
+COPY --chown=superset:superset /config/superset_init.sh ./superset_init.sh
+COPY --chown=superset:superset /config/superset_config.py /app/
 
-# Switch to root again to chmod, then back to superset
+# Switch to root just to chmod, then back
 USER root
-RUN chmod +x ./superset_init.sh
+RUN chmod +x /app/superset_init.sh
 USER superset
-
-COPY /config/superset_config.py /app/
