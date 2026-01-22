@@ -10,8 +10,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python packages into the venv using its Python interpreter
-RUN /app/.venv/bin/python -m pip install mysqlclient psycopg2-binary
+# Install Python packages directly into the venv's site-packages
+RUN pip3 install --target=/app/.venv/lib/python3.10/site-packages mysqlclient psycopg2-binary
 
 # Copy config files
 COPY /config/superset_init.sh /app/superset_init.sh
